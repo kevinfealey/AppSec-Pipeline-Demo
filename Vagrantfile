@@ -51,6 +51,8 @@ Vagrant.configure(2) do |config|
 	apt-get -y install curl
 	curl -fsSL https://get.docker.com/ | sh
 	usermod -aG docker vagrant
+	apt-get -y install python-pip
+        pip install docker-compose
 	
 	########### Threadfix ###########
 	#Create folders for Threadfix Docker volumes
