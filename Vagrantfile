@@ -22,6 +22,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080 #Jenkins
   config.vm.network "forwarded_port", guest: 50000, host: 50000 #Jenkins
   config.vm.network "forwarded_port", guest: 8081, host: 8081 #Bugzilla
+  config.vm.network "forwarded_port", guest: 5900, host: 5900 #Bugzilla
   config.vm.network "forwarded_port", guest: 8082, host: 8082 #Tomcat
 
   # Provider-specific configuration so you can fine-tune various
@@ -75,7 +76,12 @@ Vagrant.configure(2) do |config|
 	mkdir /vagrant/bugzilla
 	
 	#Setup Bugzilla
-	docker run --name bugzilla -d -p 8081:80 bugzilla/bugzilla-dev
+	#Bugzilla image on Docker Hub is broken. Until it is fixed, we build from scratch
+	#docker run --name bugzilla -d -p 8081:80 bugzilla/bugzilla-dev
+  	git clone https://github.com/kevinfealey/docker-bugzilla-dev.git
+  	cd docker-bugzilla-dev
+  	docker build --no-cache -t bugzilla/bugzilla-dev .
+  	docker-compose up -d
 	
 	########### Tomcat ###########
 	#Create folders for Bugzilla Docker volumes
