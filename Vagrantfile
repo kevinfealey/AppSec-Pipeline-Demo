@@ -18,12 +18,12 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 5900, host: 5900 #Bugzilla
+  #config.vm.network "forwarded_port", guest: 5900, host: 5900 #Bugzilla
   config.vm.network "forwarded_port", guest: 8080, host: 8080 #Jenkins
   config.vm.network "forwarded_port", guest: 8081, host: 8081 #Bugzilla
   config.vm.network "forwarded_port", guest: 8082, host: 8082 #Tomcat
   config.vm.network "forwarded_port", guest: 8443, host: 8443 #ThreadFix
-  config.vm.network "forwarded_port", guest: 50000, host: 50000 #Jenkins
+  #config.vm.network "forwarded_port", guest: 50000, host: 50000 #Jenkins
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
