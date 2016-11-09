@@ -18,12 +18,12 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 8443, host: 8443 #ThreadFix
-  config.vm.network "forwarded_port", guest: 8080, host: 8080 #Jenkins
-  config.vm.network "forwarded_port", guest: 50000, host: 50000 #Jenkins
-  config.vm.network "forwarded_port", guest: 8081, host: 8081 #Bugzilla
   config.vm.network "forwarded_port", guest: 5900, host: 5900 #Bugzilla
+  config.vm.network "forwarded_port", guest: 8080, host: 8080 #Jenkins
+  config.vm.network "forwarded_port", guest: 8081, host: 8081 #Bugzilla
   config.vm.network "forwarded_port", guest: 8082, host: 8082 #Tomcat
+  config.vm.network "forwarded_port", guest: 8443, host: 8443 #ThreadFix
+  config.vm.network "forwarded_port", guest: 50000, host: 50000 #Jenkins
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -55,6 +55,7 @@ Vagrant.configure(2) do |config|
         pip install docker-compose
 	
 	########### Threadfix ###########
+	#Accessible at: https://localhost:8443/threadfix (note: HTTPS, not HTTP)
 	#Create folders for Threadfix Docker volumes
 	#mkdir /vagrant/Threadfix #This is ineffective, since /Threadfix will be populated when the container starts, so creating a volume there erases Threadfix...
 
@@ -63,6 +64,7 @@ Vagrant.configure(2) do |config|
 	docker run --name threadfix -d -p 8443:8443 jmbmxer/threadfix-docker start
 	
 	########### Jenkins ###########
+	#Accessible at: http://localhost:8080/
 	#Create folders for Jenkins Docker volumes
 	mkdir /vagrant/jenkins_home
 	
@@ -74,9 +76,7 @@ Vagrant.configure(2) do |config|
 	docker run --name jenkins -d -p 8080:8080 -p 50000:50000 -v /vagrant/jenkins_home:/var/jenkins_home jenkins
 	
 	########### Bugzilla ###########
-	#Create folders for Bugzilla Docker volumes
-	mkdir /vagrant/bugzilla
-	
+	#Accessible at: http://localhost:8081/bugzilla/
 	#Setup Bugzilla
 	#Bugzilla image on Docker Hub is broken. Until it is fixed, we build from scratch
 	#docker run --name bugzilla -d -p 8081:80 bugzilla/bugzilla-dev
@@ -86,9 +86,7 @@ Vagrant.configure(2) do |config|
   	docker-compose up -d
 	
 	########### Tomcat ###########
-	#Create folders for Bugzilla Docker volumes
-	mkdir /vagrant/tomcat
-	
+	#Accessible at: http://localhost:8082/
 	#Setup Tomcat
 	#### Note: do we need to update the Tomcat config? ####
 	docker run --name tomcat -d -p 8082:8080 tomcat:8.0
